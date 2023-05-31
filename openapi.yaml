@@ -1,0 +1,246 @@
+openapi: 3.1.0
+info:
+  title: Panobi Metrics API
+  version: '1.0'
+  description: OpenAPI spec for Panobi Metrics.
+servers:
+  - url: 'https://panobi.com'
+    description: Panobi
+paths:
+  /integrations/metrics-sdk/timeseries/{workspace-id}/{external-id}:
+    post:
+      summary: Push metrics timeseries data to Panobi
+      operationId: post-integrations-metrics-sdk-timeseries
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/ResponseError'
+        '500':
+          $ref: '#/components/responses/ResponseError'
+      requestBody:
+        description: Metrics items
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestMetricsSDKTimeseries'
+      parameters:
+        - in: header
+          schema:
+            type: string
+          name: X-Panobi-Signature
+          description: Signature for the request
+          required: true
+          example: v0=04927f68e9b82341e00b869aad762c4525c91d2d830afe0e133332c0eb5d0c6e
+        - in: header
+          schema:
+            type: string
+          name: X-Panobi-Request-Timestamp
+          required: true
+          description: Timestamp in unix milliseconds
+          example: '1678319603312'
+        - in: header
+          schema:
+            type: string
+          name: X-Request-ID
+          required: true
+          description: UUID for tracking the request
+          example: 06e4f4cf-aa09-4e09-ad2b-e8608d540e3b
+        - in: path
+          schema:
+            type: string
+          name: workspace-id
+          required: true
+          description: Workspace ID
+          example: '1234567890123456789012'
+        - in: path
+          schema:
+            type: string
+          name: external-id
+          required: true
+          description: External ID
+          example: '1234567890123456789012'
+  /integrations/metrics-sdk/chart-data/{workspace-id}/{external-id}:
+    post:
+      summary: Push metrics chart data for all types besides timeseries to Panobi
+      operationId: post-integrations-metrics-sdk-chart-data
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/ResponseError'
+        '500':
+          $ref: '#/components/responses/ResponseError'
+      requestBody:
+        description: Metrics items
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestMetricsSDKChartData'
+      parameters:
+        - in: header
+          schema:
+            type: string
+          name: X-Panobi-Signature
+          description: Signature for the request
+          required: true
+          example: v0=04927f68e9b82341e00b869aad762c4525c91d2d830afe0e133332c0eb5d0c6e
+        - in: header
+          schema:
+            type: string
+          name: X-Panobi-Request-Timestamp
+          required: true
+          description: Timestamp in unix milliseconds
+          example: '1678319603312'
+        - in: path
+          schema:
+            type: string
+          name: workspace-id
+          required: true
+          description: Workspace ID
+          example: '1234567890123456789012'
+        - in: path
+          schema:
+            type: string
+          name: external-id
+          required: true
+          description: External ID
+          example: '1234567890123456789012'
+  /integrations/metrics-sdk/delete/{workspace-id}/{external-id}:
+    post:
+      summary: Delete stored data for a Metric. The metric itself is not deleted.
+      operationId: post-integrations-metrics-sdk-delete
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/ResponseError'
+        '500':
+          $ref: '#/components/responses/ResponseError'
+      requestBody:
+        description: Metrics items
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestMetricsSDKDelete'
+      parameters:
+        - in: header
+          schema:
+            type: string
+          name: X-Panobi-Signature
+          description: Signature for the request
+          required: true
+          example: v0=04927f68e9b82341e00b869aad762c4525c91d2d830afe0e133332c0eb5d0c6e
+        - in: header
+          schema:
+            type: string
+          name: X-Panobi-Request-Timestamp
+          required: true
+          description: Timestamp in unix milliseconds
+          example: '1678319603312'
+        - in: path
+          schema:
+            type: string
+          name: workspace-id
+          required: true
+          description: Workspace ID
+          example: '1234567890123456789012'
+        - in: path
+          schema:
+            type: string
+          name: external-id
+          required: true
+          description: External ID
+          example: '1234567890123456789012'
+components:
+  schemas:
+    ObjectErrorMessage:
+      title: ErrorMessage
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+    RequestMetricsSDKTimeseries:
+      title: RequestMetricsSDKTimeseries
+      type: object
+      properties:
+        metricID:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectMetricTimeseriesItem'
+      required:
+        - metricID
+        - items
+      example:
+        metricID: XRnrRBTedmWzy8RQ6pqh2d
+        items:
+          - date: 2023-01-01
+            value: 100000
+          - date: 2023-01-02
+            value: 101000
+          - date: 2023-01-03
+            value: 102000
+    ObjectMetricTimeseriesItem:
+      title: ObjectMetricTimeseriesItem
+      type: object
+      properties:
+        date:
+          type: string
+        value:
+          type: number
+          format: double
+      required:
+        - date
+        - value
+    RequestMetricsSDKChartData:
+      title: RequestMetricsSDKChartData
+      type: object
+      properties:
+        metricID:
+          type: string
+        items:
+          type: array
+          items:
+            type: object
+      required:
+        - metricID
+        - items
+      example:
+        metricID: "1234567890123456789012"
+        items:
+          - label: "Foo"
+            value: 100000
+          - label: "Bar"
+            value: 101000
+          - label: "Baz"
+            value: 102000
+    RequestMetricsSDKDelete:
+      title: RequestMetricsSDKDelete
+      type: object
+      properties:
+        metricID:
+          type: string
+      required:
+        - metricID
+        - items
+      example:
+        metricID: "1234567890123456789012"
+    ResponseError:
+      title: ResponseError
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ObjectErrorMessage'
+      required:
+        - error
+  responses:
+    ResponseError:
+      description: A standard error response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseError'
