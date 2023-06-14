@@ -20,9 +20,9 @@ The source files were written against [Go 1.20](https://go.dev/doc/go1.20). They
 
 ## Getting started
 
-The quickest way to get up and running is to run the provided [example programs](#running-the-example-programs), which demonstrate how to construct metrics items and send them to Panobi.
+The quickest way to get started is to run the provided [example programs](#running-the-example-programs), which demonstrate how to construct metrics items and send them to Panobi.
 
-If you're using a language other than Golang, or you'd rather roll-your-own, then take a look at how to send metrics to us via [OpenAPI](#openapi).
+If you're using a language other than Golang, or you'd rather write your own commands, then take a look at how to send metrics to us via [OpenAPI](#openapi).
 
 ## Running the example programs
 
