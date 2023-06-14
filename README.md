@@ -1,4 +1,4 @@
-# Panobi Feature Flag SDK
+# Panobi Metrics SDK
 
 ## Overview
 
