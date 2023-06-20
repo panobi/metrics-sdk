@@ -10,6 +10,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 const (
@@ -99,6 +101,7 @@ func (t *transport) getHeaders(si SignatureInfo) http.Header {
 	headers.Set("Content-Type", "application/json")
 	headers.Set("X-Panobi-Signature", si.S)
 	headers.Set("X-Panobi-Request-Timestamp", si.TS)
+	headers.Set("X-Request-ID", uuid.NewString())
 
 	return headers
 }
