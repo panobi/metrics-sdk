@@ -39,6 +39,13 @@ paths:
           required: true
           description: Timestamp in unix milliseconds
           example: '1678319603312'
+        - in: header
+          schema:
+            type: string
+          name: X-Request-ID
+          required: true
+          description: UUID for tracking the request
+          example: 06e4f4cf-aa09-4e09-ad2b-e8608d540e3b
         - in: path
           schema:
             type: string
