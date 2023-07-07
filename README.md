@@ -2,15 +2,19 @@
 
 ## Overview
 
-This SDK lets you push metrics data to your Panobi workspace. It also serves as an example for using the integration API in other languages.
+This SDK lets you push metrics data from your private data source to your Panobi workspace, so you can observe growth patterns and make better-informed product decisions.
+
+It also serves as an example for using the integration API in other languages.
 
 ## Who is it for?
 
-Anyone with a private or in-house data warehouse system who cannot use our other metrics data source integrations.
+If you use a private or in-house data warehouse system, this SDK will allow you to connect your data.
+
+(If you use a third-party data warehouse system, please check out our other data integrations in your Panobi settings.)
 
 ## How does it work?
 
-The SDK is based on metrics and items. Metrics are created in the Panobi UI and have a unique intendifier, which is a string. Items are pairs of a calendar day and a numeric (float or integer) value. Metrics items can be sent one at a time or in batches of up to 1000 items. Panobi will only store new items.
+The SDK is based on metrics and items. Metrics are created in the Panobi UI and have a unique identifier, which is a string. Items are pairs of a calendar day and a numeric (float or integer) value. Metrics items can be sent one at a time or in batches of up to 1000 items. Panobi will only store new items.
 
 ## Compatibility
 
@@ -45,12 +49,12 @@ go run main.go
 
 Roughly, it works as follows.
 
-1. Reads the enviroment variable and parses your key.
+1. Reads the environment variable and parses your key.
 2. Creates a client with the parsed key.
-3. Constructs a timeseries item for a hard coded metric ID
+3. Constructs a time series item for a hard-coded metric ID.
 4. Sends the item to Panobi.
 
-Once the item has been successfully sent, it should show up in the Timeline view of your Panobi workspace.
+Once the item has been successfully sent, it should show up in your timeline in Panobi.
 
 ### CSV
 
@@ -76,7 +80,7 @@ XRnrRBTedmWzy8RQ6pqh2d,2023-07-02,1000.5
 
 ### JSON
 
-This example program works like the CSV example, but reads events in JSON format. Instead of one line per value, the JSON is structured to group items per metricID.
+This example program works like the CSV example, but reads events in JSON format. Instead of one line per value, the JSON is structured to group items per metric ID.
 
 ```console
 cd examples/json
