@@ -146,6 +146,4 @@ This SDK is provided under the terms of the [Apache License 2.0](LICENSE).
 
 ## About Panobi
 
-The platform designed for growth teams.
-
-Panobi helps growth teams increase their velocity, deliver results, and amplify customer insights across the company.
+Panobi is the platform for growth observability: helping companies see, understand, and drive their growth.
