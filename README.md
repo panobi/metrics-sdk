@@ -24,13 +24,17 @@ The source files were written against [Go 1.20](https://go.dev/doc/go1.20). They
 
 ## Getting started
 
-The quickest way to get started is to run the provided [example programs](#running-the-example-programs), which demonstrate how to construct metrics items and send them to Panobi.
+The Metrics SDK must be enabled from your Settings -> Integrations page in your Panobi workspace. On this page you can copy your signing key, which you will need to authenticate this integration.
+
+Publishing data for a metric requires the Metric ID. To obtain this ID, create a metric in the Metrics or Timeline page on your Panobi workspace and choose "Metrics SDK" as the data source. On this page you can copy your Metric ID for use with this SDK.
+
+Once you have a signing key and at least one metric ID, you're ready to start running the provided [example programs](#running-the-example-programs), which demonstrate how to construct metrics items and send them to Panobi.
 
 If you're using a language other than Golang, or you'd rather write your own commands, then take a look at how to send metrics to us via [OpenAPI](#openapi).
 
 ## Running the example programs
 
-You will need your signing key, which you can copy from the integration settings in your Panobi workspace. The example programs expect the signing key in the form of an environment variable.
+The example programs expect the signing key in the form of an environment variable.
 
 ```console
 export METRICS_SDK_SIGNING_KEY=<your signing key>
