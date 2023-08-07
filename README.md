@@ -78,8 +78,8 @@ MetricID, Date, Value
 The following are examples of valid rows:
 
 ```
-XRnrRBTedmWzy8RQ6pqh2d,2023-07-01,1000
-XRnrRBTedmWzy8RQ6pqh2d,2023-07-02,1000.5
+<your metric id>,2023-08-01,1000
+<your metric id>,2023-08-02,1000.5
 ```
 
 ### JSON
@@ -95,14 +95,11 @@ The following is an example of a valid row:
 
 ```json
 [
-    {
-        "metricID": "XRnrRBTedmWzy8RQ6pqh2d",
-        "items": [
-            {"date": "2023-07-01", "value": 1000}
-        ]
-    }
+  {
+    "metricID": "<your metric id>",
+    "items": [{ "date": "2023-08-01", "value": 1000 }]
+  }
 ]
-
 ```
 
 ## OpenAPI
