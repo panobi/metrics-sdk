@@ -15,8 +15,8 @@ import (
 )
 
 const (
-	// TODO CHANGE
-	itemsURI string = "http://localhost:8080/integrations/metrics-sdk/items"
+	// TODO CHANGE to prod
+	itemsURI string = "https://dev.panobi.com/integrations/metrics-sdk/items"
 
 	attempts          int = 3
 	backoffInitial    int = 1
