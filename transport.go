@@ -16,7 +16,7 @@ import (
 
 const (
 	// TODO CHANGE to prod
-	itemsURI string = "https://dev.panobi.com/integrations/metrics-sdk/items"
+	timeseriesURI string = "https://dev.panobi.com/integrations/metrics-sdk/timeseries"
 
 	attempts          int = 3
 	backoffInitial    int = 1
@@ -43,7 +43,7 @@ func (t *transport) post(input []byte) ([]byte, error) {
 
 	url := fmt.Sprintf(
 		"%s/%s/%s",
-		itemsURI,
+		timeseriesURI,
 		url.PathEscape(t.ki.WorkspaceID),
 		url.PathEscape(t.ki.ExternalID))
 	backoff := backoffInitial

@@ -138,7 +138,7 @@ curl -v \
     -H "X-Panobi-Request-Timestamp: ""${ts}" \
     -H "Content-Type: application/json" \
     -d "${input}" \
-    https://panobi.com/integrations/metrics-sdk/items/"${wid}"/"${eid}"
+    https://panobi.com/integrations/metrics-sdk/timeseries/"${wid}"/"${eid}"
 ```
 
 ## License

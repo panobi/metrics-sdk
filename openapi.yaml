@@ -7,10 +7,10 @@ servers:
   - url: 'https://panobi.com'
     description: Panobi
 paths:
-  /integrations/metrics/items/{workspace-id}/{external-id}:
+  /integrations/metrics-sdk/timeseries/{workspace-id}/{external-id}:
     post:
-      summary: Push metrics items to Panobi
-      operationId: post-integrations-metrics-sdk-items
+      summary: Push metrics timeseries data to Panobi
+      operationId: post-integrations-metrics-sdk-timeseries
       responses:
         '200':
           description: OK
@@ -23,7 +23,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RequestMetricsSDKItems'
+              $ref: '#/components/schemas/RequestMetricsSDKTimeseries'
       parameters:
         - in: header
           schema:
@@ -70,8 +70,8 @@ components:
           type: string
       required:
         - message
-    RequestMetricsSDKItems:
-      title: RequestMetricsSDKItems
+    RequestMetricsSDKTimeseries:
+      title: RequestMetricsSDKTimeseries
       type: object
       properties:
         metricID:
