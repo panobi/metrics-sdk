@@ -14,9 +14,13 @@ import (
 	"github.com/google/uuid"
 )
 
+type apiURI string
+
 const (
 	// TODO CHANGE to prod
-	timeseriesURI string = "https://dev.panobi.com/integrations/metrics-sdk/timeseries"
+	TimeseriesURI apiURI = "https://dev.panobi.com/integrations/metrics-sdk/timeseries"
+	ChartDataURI  apiURI = "https://dev.panobi.com/integrations/metrics-sdk/chart-data"
+	DeleteURI     apiURI = "https://dev.panobi.com/integrations/metrics-sdk/delete"
 
 	attempts          int = 3
 	backoffInitial    int = 1
@@ -35,7 +39,7 @@ func createTransport(ki KeyInfo) *transport {
 	}
 }
 
-func (t *transport) post(input []byte) ([]byte, error) {
+func (t *transport) post(uri apiURI, input []byte) ([]byte, error) {
 	si, err := CalculateSignature(input, t.ki, nil)
 	if err != nil {
 		return nil, err
@@ -43,7 +47,7 @@ func (t *transport) post(input []byte) ([]byte, error) {
 
 	url := fmt.Sprintf(
 		"%s/%s/%s",
-		timeseriesURI,
+		uri,
 		url.PathEscape(t.ki.WorkspaceID),
 		url.PathEscape(t.ki.ExternalID))
 	backoff := backoffInitial
@@ -60,6 +64,7 @@ func (t *transport) post(input []byte) ([]byte, error) {
 
 			resp, err := t.c.Do(req)
 			if err != nil {
+				fmt.Println("Returning early")
 				return nil, err
 			}
 
@@ -69,19 +74,20 @@ func (t *transport) post(input []byte) ([]byte, error) {
 				}
 			}()
 
+			body, err := io.ReadAll(resp.Body)
 			switch code := resp.StatusCode; {
 			case code >= 200 && code < 300:
-				return io.ReadAll(resp.Body)
+				return body, err
 			case code == 408 || code == 429:
 				if i == attempts {
-					return nil, fmt.Errorf("http error: %d", resp.StatusCode)
+					return nil, fmt.Errorf("http error %d: %s", resp.StatusCode, body)
 				}
 				time.Sleep(getRetryAfter(resp, backoff))
 				backoff = backoff * backoffMultiplier
 				i++
 				return nil, nil
 			default:
-				return nil, fmt.Errorf("http error: %d", resp.StatusCode)
+				return nil, fmt.Errorf("http error %d: %s", resp.StatusCode, body)
 			}
 		}()
 
