@@ -64,7 +64,6 @@ func (t *transport) post(uri apiURI, input []byte) ([]byte, error) {
 
 			resp, err := t.c.Do(req)
 			if err != nil {
-				fmt.Println("Returning early")
 				return nil, err
 			}
 

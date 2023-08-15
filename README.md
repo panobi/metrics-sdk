@@ -56,7 +56,7 @@ export METRICS_SDK_SIGNING_KEY=<your signing key>
 
 Make sure to store your signing key in a secure location; do not commit it to source control.
 
-## Simple
+### Simple
 
 The simple example uses hard coded data to demonstrate how to write a Go program to send data for a timeseries metric to Panobi.
 

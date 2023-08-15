@@ -73,7 +73,7 @@ func sendTimeseriesData(scanner *bufio.Scanner, client *panobi.Client) {
 		line := scanner.Text()
 		i++
 		// skip header row if present
-		if i == 1 && strings.HasPrefix(line, "MetricID,") {
+		if i == 1 && strings.HasPrefix(line, "MetricID") {
 			continue
 		}
 
@@ -147,11 +147,11 @@ func sendChartData(scanner *bufio.Scanner, client *panobi.Client) {
 	metricIDColumn := -1
 	for scanner.Scan() {
 		line := scanner.Text()
-		cols := strings.Split(line, ",")
+		row := strings.Split(line, ",")
 
 		i++
 		if i == 1 {
-			for index, col := range cols {
+			for index, col := range row {
 				columns[index] = strings.TrimSpace(col)
 				if columns[index] == "MetricID" {
 					metricIDColumn = index
@@ -167,15 +167,15 @@ func sendChartData(scanner *bufio.Scanner, client *panobi.Client) {
 			continue
 		}
 
-		if len(cols) != len(columns) {
-			log.Fatalf(`Column count %d does not match header row %d in "%s"`, len(cols), len(columns), line)
+		if len(row) != len(columns) {
+			log.Fatalf(`Column count %d does not match header row %d in "%s"`, len(row), len(columns), line)
 		}
 
 		item := panobi.ChartData{}
 		var metricID string
 		for index, name := range columns {
 			var value interface{}
-			value = strings.TrimSpace(cols[index])
+			value = strings.TrimSpace(row[index])
 			if name == "MetricID" {
 				metricID = value.(string)
 			} else {
