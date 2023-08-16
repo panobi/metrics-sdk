@@ -60,6 +60,98 @@ paths:
           required: true
           description: External ID
           example: '1234567890123456789012'
+  /integrations/metrics-sdk/chart-data/{workspace-id}/{external-id}:
+    post:
+      summary: Push metrics chart data for all types besides timeseries to Panobi
+      operationId: post-integrations-metrics-sdk-chart-data
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/ResponseError'
+        '500':
+          $ref: '#/components/responses/ResponseError'
+      requestBody:
+        description: Metrics items
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestMetricsSDKChartData'
+      parameters:
+        - in: header
+          schema:
+            type: string
+          name: X-Panobi-Signature
+          description: Signature for the request
+          required: true
+          example: v0=04927f68e9b82341e00b869aad762c4525c91d2d830afe0e133332c0eb5d0c6e
+        - in: header
+          schema:
+            type: string
+          name: X-Panobi-Request-Timestamp
+          required: true
+          description: Timestamp in unix milliseconds
+          example: '1678319603312'
+        - in: path
+          schema:
+            type: string
+          name: workspace-id
+          required: true
+          description: Workspace ID
+          example: '1234567890123456789012'
+        - in: path
+          schema:
+            type: string
+          name: external-id
+          required: true
+          description: External ID
+          example: '1234567890123456789012'
+  /integrations/metrics-sdk/delete/{workspace-id}/{external-id}:
+    post:
+      summary: Delete stored data for a Metric. The metric itself is not deleted.
+      operationId: post-integrations-metrics-sdk-delete
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/ResponseError'
+        '500':
+          $ref: '#/components/responses/ResponseError'
+      requestBody:
+        description: Metrics items
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestMetricsSDKDelete'
+      parameters:
+        - in: header
+          schema:
+            type: string
+          name: X-Panobi-Signature
+          description: Signature for the request
+          required: true
+          example: v0=04927f68e9b82341e00b869aad762c4525c91d2d830afe0e133332c0eb5d0c6e
+        - in: header
+          schema:
+            type: string
+          name: X-Panobi-Request-Timestamp
+          required: true
+          description: Timestamp in unix milliseconds
+          example: '1678319603312'
+        - in: path
+          schema:
+            type: string
+          name: workspace-id
+          required: true
+          description: Workspace ID
+          example: '1234567890123456789012'
+        - in: path
+          schema:
+            type: string
+          name: external-id
+          required: true
+          description: External ID
+          example: '1234567890123456789012'
 components:
   schemas:
     ObjectErrorMessage:
@@ -104,6 +196,39 @@ components:
       required:
         - date
         - value
+    RequestMetricsSDKChartData:
+      title: RequestMetricsSDKChartData
+      type: object
+      properties:
+        metricID:
+          type: string
+        items:
+          type: array
+          items:
+            type: object
+      required:
+        - metricID
+        - items
+      example:
+        metricID: "1234567890123456789012"
+        items:
+          - label: "Foo"
+            value: 100000
+          - label: "Bar"
+            value: 101000
+          - label: "Baz"
+            value: 102000
+    RequestMetricsSDKDelete:
+      title: RequestMetricsSDKDelete
+      type: object
+      properties:
+        metricID:
+          type: string
+      required:
+        - metricID
+        - items
+      example:
+        metricID: "1234567890123456789012"
     ResponseError:
       title: ResponseError
       type: object

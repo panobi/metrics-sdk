@@ -14,7 +14,21 @@ If you use a private or in-house data warehouse system, this SDK will allow you 
 
 ## How does it work?
 
-The SDK is based on metrics and items. Metrics are created in the Panobi UI and have a unique identifier, which is a string. Items are pairs of a calendar day and a numeric (float or integer) value. Metrics items can be sent one at a time or in batches of up to 1000 items. Panobi will only store new items.
+The SDK is based on metrics and items. Metrics are created in the Panobi UI and have a unique identifier, which is a string.
+
+There are two kinds of metrics in Panobi. **Timeseries** metrics show on the Panobi Timeline page and require a calendar day as the X-axis, along with a single numeric (float or integer) value. The day is effectively a unique key for a metric. Timeseries data can be sent one item at a time or in batches of up to 1000 items. Panobi will only store new items.
+
+Other chart types like bar, column, area, and table support arbitrary numbers of columns of different types.
+
+This SDK uses separate API endpoints to send data for timeseries metrics and other chart types, so you'll need to know which kind of metric you're sending.
+
+## How to use this SDK
+
+There are three main ways to use the SDK
+
+1. Use the Go libraries in the SDK to write a program in Go to send data to Panobi
+2. Export data into CSV or JSON formats using the tools of your choice (such as SQL exports, spreadsheets, or any programming language), and use Go to compile and run our example programs to send the data to Panobi
+3. Use the [curl example](#openapi) or construct a similar request in any programming language, without needing to use Go
 
 ## Compatibility
 
@@ -26,7 +40,7 @@ The source files were written against [Go 1.20](https://go.dev/doc/go1.20). They
 
 The Metrics SDK must be enabled from your Settings -> Integrations page in your Panobi workspace. On this page you can copy your signing key, which you will need to authenticate this integration.
 
-Publishing data for a metric requires the Metric ID. To obtain this ID, create a metric in the Metrics or Timeline page on your Panobi workspace and choose "Metrics SDK" as the data source. On this page you can copy your Metric ID for use with this SDK.
+Publishing data for a metric requires the Metric ID. To obtain this ID, create a metric on the Metrics or Timeline page on your Panobi workspace and choose "Metrics SDK" as the data source. On this page you can copy your Metric ID for use with this SDK. Your selection for the "Time series" toggle when creating the metric will determine how you should send the data using the SDK - timeseries metrics are sent differently from other types of metrics.
 
 Once you have a signing key and at least one metric ID, you're ready to start running the provided [example programs](#running-the-example-programs), which demonstrate how to construct metrics items and send them to Panobi.
 
@@ -44,7 +58,7 @@ Make sure to store your signing key in a secure location; do not commit it to so
 
 ### Simple
 
-The simple example is a good place to start.
+The simple example uses hard coded data to demonstrate how to write a Go program to send data for a timeseries metric to Panobi.
 
 ```console
 cd examples/simple
@@ -66,13 +80,18 @@ This example program demonstrates how to send more than one item at a time. It w
 
 ```console
 cd examples/csv
+
+# for timeseries metrics
+go run main.go -t ./metrics.csv
+
+# for other chart types
 go run main.go ./metrics.csv
 ```
 
 Each row is in the following format:
 
 ```
-MetricID, Date, Value
+MetricID,Date,Value
 ```
 
 The following are examples of valid rows:
@@ -82,16 +101,25 @@ The following are examples of valid rows:
 <your metric id>,2023-08-02,1000.5
 ```
 
+For timeseries metrics, the header row is optional and must be `MetricID,Date,Value` if present. Only new rows will be uploaded, existing rows will not be modified.
+
+For other chart types, a header row is required to set the column names. `MetricID` must be one of the columns. Before any data is sent, all existing data will be deleted.
+
 ### JSON
 
 This example program works like the CSV example, but reads events in JSON format. Instead of one line per value, the JSON is structured to group items per metric ID.
 
 ```console
 cd examples/json
+
+# for timeseries metrics
+go run main.go -t ./metrics.json
+
+# for other chart types
 go run main.go ./metrics.json
 ```
 
-The following is an example of a valid row:
+The following is an example of a valid row for a timeseries metric.
 
 ```json
 [
