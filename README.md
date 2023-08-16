@@ -44,7 +44,7 @@ The Metrics SDK must be enabled from your Settings -> Integrations page in your 
 
 ### Create a metric in Panobi
 
-Publishing data for a metric requires the Metric ID. To obtain this ID, create a metric on the Metrics or Timeline page on your Panobi workspace and choose "Metrics SDK" as the data source. On this page you can copy your Metric ID for use with this SDK. Your selection for the "Time series" toggle when creating the metric will determine how you should send the data using the SDK - timeseries metrics are sent differently from other types of metrics.
+Publishing data for a metric requires the Metric ID. To obtain this ID, create a metric on the Metrics page on your Panobi workspace and choose "Metrics SDK" as the data source. On this page you can copy your Metric ID for use with this SDK. Your selection for the "Time series" toggle when creating the metric will determine how you should send the data using the SDK - timeseries metrics are sent differently from other types of metrics.
 
 ### Send metric data to Panobi
 
