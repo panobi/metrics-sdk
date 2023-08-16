@@ -38,11 +38,17 @@ The source files were written against [Go 1.20](https://go.dev/doc/go1.20). They
 
 ## Getting started
 
-The Metrics SDK must be enabled from your Settings -> Integrations page in your Panobi workspace. On this page you can copy your signing key, which you will need to authenticate this integration.
+### Enable the Metrics SDK in Panobi
 
-Publishing data for a metric requires the Metric ID. To obtain this ID, create a metric on the Metrics or Timeline page on your Panobi workspace and choose "Metrics SDK" as the data source. On this page you can copy your Metric ID for use with this SDK. Your selection for the "Time series" toggle when creating the metric will determine how you should send the data using the SDK - timeseries metrics are sent differently from other types of metrics.
+The Metrics SDK must be enabled from your Settings -> Integrations page in your Panobi workspace. On this page you can copy your signing key, which you will need to authenticate this integration. You only need to do this once, no matter how many metrics you're sending to Panobi.
 
-Once you have a signing key and at least one metric ID, you're ready to start running the provided [example programs](#running-the-example-programs), which demonstrate how to construct metrics items and send them to Panobi.
+### Create a metric in Panobi
+
+Publishing data for a metric requires the Metric ID. To obtain this ID, create a metric on the Metrics page on your Panobi workspace and choose "Metrics SDK" as the data source. On this page you can copy your Metric ID for use with this SDK. Your selection for the "Time series" toggle when creating the metric will determine how you should send the data using the SDK - timeseries metrics are sent differently from other types of metrics.
+
+### Send metric data to Panobi
+
+Once you have a signing key and at least one metric ID, you're ready to start running the provided [example programs](#running-the-example-programs), which demonstrate how to construct metrics items and send them to Panobi. You can invoke these programs directly, or use them as inspiration for writing your own code with the SDK.
 
 If you're using a language other than Golang, or you'd rather write your own commands, then take a look at how to send metrics to us via [OpenAPI](#openapi).
 
