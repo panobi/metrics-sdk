@@ -17,9 +17,9 @@ import (
 type apiURI string
 
 const (
-	TimeseriesURI apiURI = "https://panobi.com/integrations/metrics-sdk/timeseries"
-	ChartDataURI  apiURI = "https://panobi.com/integrations/metrics-sdk/chart-data"
-	DeleteURI     apiURI = "https://panobi.com/integrations/metrics-sdk/delete"
+	TimeseriesURI apiURI = "https://app.panobi.com/integrations/metrics-sdk/timeseries"
+	ChartDataURI  apiURI = "https://app.panobi.com/integrations/metrics-sdk/chart-data"
+	DeleteURI     apiURI = "https://app.panobi.com/integrations/metrics-sdk/delete"
 
 	attempts          int = 3
 	backoffInitial    int = 1
