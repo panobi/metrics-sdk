@@ -144,6 +144,12 @@ All modern programming languages should have equivalent libraries allowing you t
 # it. The first argument to this script is the name of that file.
 input=$(<"$1")
 
+# Check that we have a signing key
+if [[ -z "$METRICS_SDK_SIGNING_KEY" ]]; then
+	echo "Did you forget to set \$METRICS_SDK_SIGNING_KEY?"
+	exit 1
+fi
+
 # Split the signing key into its component parts.
 arr=(${METRICS_SDK_SIGNING_KEY//-/ })
 wid=${arr[0]}    # Workspace ID
@@ -151,13 +157,13 @@ eid=${arr[1]}    # External ID
 secret=${arr[2]} # Secret
 
 # Get the milliseconds since Unix epoch. We'll use this as a timestamp for the
-# signature.
+# signature to prevent replay attacks.
 ts=$(date +%s)000
 
 # Hash the timestamp and the request body using the secret part of the signing
 # key.
 msg="v0:${ts}:${input}"
-sig=$(echo -n "${msg}" | openssl dgst -sha256 -hmac "${secret}")
+sig=$(echo -n "${msg}" | openssl dgst -r -sha256 -hmac "${secret}" | awk '{print $1}')
 
 # Post the headers and the request to Panobi using good ol' curl.
 curl -v \
@@ -166,7 +172,7 @@ curl -v \
     -H "X-Panobi-Request-Timestamp: ""${ts}" \
     -H "Content-Type: application/json" \
     -d "${input}" \
-    https://panobi.com/integrations/metrics-sdk/timeseries/"${wid}"/"${eid}"
+    https://app.panobi.com/integrations/metrics-sdk/timeseries/"${wid}"/"${eid}"
 ```
 
 ## License
